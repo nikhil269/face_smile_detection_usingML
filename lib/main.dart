@@ -33,22 +33,29 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(brightness: Brightness.dark),
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('Face Detection Firebase'),
+          backgroundColor: Color(0xffFC6E20),
+          title: new Text(
+            'Face Detection Firebase',
+            style: TextStyle(fontWeight: FontWeight.normal),
+          ),
         ),
         body: showBody(_file),
         floatingActionButton: new FloatingActionButton(
+          backgroundColor: Color(0xffFC6E20),
           onPressed: () async {
             var file = await ImagePicker.pickImage(source: ImageSource.gallery);
             setState(() {
               _file = file;
             });
 
-print("Welcome");
-            var face =
-                await detector.detectFromBinary(_file?.readAsBytesSync(), options);
-                print(face);
+            print("Welcome");
+            var face = await detector.detectFromBinary(
+                _file?.readAsBytesSync(), options);
+            print(face);
             setState(() {
               if (face.isEmpty) {
                 print('No face detected');
@@ -79,7 +86,10 @@ print("Welcome");
       height: 500.0,
       child: new Center(
         child: _file == null
-            ? new Text('Select image using Floating Button...')
+            ? new Text(
+                'Select image using Floating Button...',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+              )
             : new FutureBuilder<Size>(
                 future: _getImageSize(Image.file(_file, fit: BoxFit.fitWidth)),
                 builder: (BuildContext context, AsyncSnapshot<Size> snapshot) {
@@ -121,22 +131,26 @@ Future _getImageSize(Image image) {
 
 Widget _showDetails(List<VisionFace> faceList) {
   if (faceList == null || faceList.length == 0) {
-    return new Text('', textAlign: TextAlign.center);
+    return new Text(
+      '',
+      textAlign: TextAlign.center,
+      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    );
   }
   return new Container(
     child: new ListView.builder(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.only(left: 10.0, right: 10, top: 500),
       itemCount: faceList.length,
       itemBuilder: (context, i) {
         checkData(faceList);
         return _buildRow(
-            faceList[0].hasLeftEyeOpenProbability,
-            faceList[0].headEulerAngleY,
-            faceList[0].headEulerAngleZ,
-            faceList[0].leftEyeOpenProbability,
-            faceList[0].rightEyeOpenProbability,
-            faceList[0].smilingProbability,
-            faceList[0].trackingID);
+            faceList[i].hasLeftEyeOpenProbability,
+            faceList[i].headEulerAngleY,
+            faceList[i].headEulerAngleZ,
+            faceList[i].leftEyeOpenProbability,
+            faceList[i].rightEyeOpenProbability,
+            faceList[i].smilingProbability,
+            faceList[i].trackingID);
       },
     ),
   );
