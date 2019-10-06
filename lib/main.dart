@@ -137,6 +137,22 @@ Widget _showDetails(List<VisionFace> faceList) {
       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
     );
   }
+
+   if(faceList[0].smilingProbability >= 0.8){
+      print("5 Star Rating");
+    }
+    else if(faceList[0].smilingProbability < 0.8 && faceList[0].smilingProbability >=0.6){
+      print("4 Star Rating");
+    }
+    else if(faceList[0].smilingProbability < 0.6 && faceList[0].smilingProbability >=0.4){
+      print("3 Star Rating");
+    }
+    else if(faceList[0].smilingProbability < 0.4 && faceList[0].smilingProbability >=0.2){
+      print("2 Star Rating");
+    }
+    else{
+      print("1 Star Rating");
+    }
   return new Container(
     child: new ListView.builder(
       padding: const EdgeInsets.only(left: 10.0, right: 10, top: 500),
@@ -153,6 +169,7 @@ Widget _showDetails(List<VisionFace> faceList) {
             faceList[i].trackingID);
       },
     ),
+
   );
 }
 
