@@ -153,12 +153,18 @@ Widget _showDetails(List<VisionFace> faceList) {
     else{
       print("1 Star Rating");
     }
+    double sum = 0;
+    double avgs=0;
   return new Container(
     child: new ListView.builder(
       padding: const EdgeInsets.only(left: 10.0, right: 10, top: 500),
       itemCount: faceList.length,
       itemBuilder: (context, i) {
         checkData(faceList);
+        sum+=faceList[i].smilingProbability;
+        avgs = sum/faceList.length;
+        print("Total No of Person in Frame are :nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn");
+        print(faceList.length);
         return _buildRow(
             faceList[i].hasLeftEyeOpenProbability,
             faceList[i].headEulerAngleY,
@@ -166,7 +172,9 @@ Widget _showDetails(List<VisionFace> faceList) {
             faceList[i].leftEyeOpenProbability,
             faceList[i].rightEyeOpenProbability,
             faceList[i].smilingProbability,
-            faceList[i].trackingID);
+            avgs,
+            faceList[i].trackingID,
+        );
       },
     ),
 
@@ -222,10 +230,11 @@ Widget _buildRow(
     double leftEyeOpenProbability,
     double rightEyeOpenProbability,
     double smileProb,
+    double avg,
     int tID) {
   return ListTile(
     title: new Text(
-      "\nLeftEyeProb: $leftEyeProb \nHeadEulerY : $headEulerY \nHeadEulerZ : $headEulerZ \nLeftEyeOpenProbability : $leftEyeOpenProbability \nRightEyeOpenProbability : $rightEyeOpenProbability \nSmileProb : $smileProb \nFaceTrackingEnabled : $tID",
+      "\nLeftEyeProb: $leftEyeProb \nHeadEulerY : $headEulerY \nHeadEulerZ : $headEulerZ \nLeftEyeOpenProbability : $leftEyeOpenProbability \nRightEyeOpenProbability : $rightEyeOpenProbability \nSmileProb : $smileProb \nFaceTrackingEnabled : $tID \naverage :$avg",
     ),
     dense: true,
   );
